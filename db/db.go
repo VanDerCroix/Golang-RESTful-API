@@ -11,9 +11,7 @@ func main() {
 }
 
 func Query(){
-    db, err := sql.Open(
-        "mysql", 
-        CxStr)
+    db, err := sql.Open("mysql", CxStr)
     if err != nil{
         log.Printf(err.Error())
     }
@@ -76,9 +74,7 @@ func Query(){
 }
 
 func QueryEmployees()([]Employee) {
-    db, err := sql.Open(
-        "mysql", 
-        CxStr)
+    db, err := sql.Open("mysql", CxStr)
     if err != nil{
         log.Printf(err.Error())
     }
@@ -108,9 +104,7 @@ func QueryEmployees()([]Employee) {
 }
 
 func QueryEmployee(id int)(Employee) {
-    db, err := sql.Open(
-        "mysql", 
-        CxStr)
+    db, err := sql.Open("mysql", CxStr)
     if err != nil{
         log.Printf(err.Error())
     }
