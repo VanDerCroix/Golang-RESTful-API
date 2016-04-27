@@ -1,24 +1,24 @@
 package mysqldb
 
 import (
-	_ "github.com/go-sql-driver/mysql"
-	"database/sql"
-	"log"
-	"fmt"
+    _ "github.com/go-sql-driver/mysql"
+    "database/sql"
+    "log"
+    "fmt"
 )
 func main() {
-	//Query2()
+    //Query2()
 }
 
 func Query(){
-	db, err := sql.Open(
-		"mysql", 
-		"luizkawai7:IfiloseMyself1192@tcp(west2-mysql-arquitecturabd.cxrckrb6tfbt.us-west-2.rds.amazonaws.com:3306)/ArquitecturaBD")
-	if err != nil{
-		log.Printf(err.Error())
-	}
+    db, err := sql.Open(
+        "mysql", 
+        CxStr)
+    if err != nil{
+        log.Printf(err.Error())
+    }
 
-	defer db.Close()
+    defer db.Close()
 
     // Execute the query
     query := "SELECT id, name, address FROM Employees"
@@ -78,7 +78,7 @@ func Query(){
 func QueryEmployees()([]Employee) {
     db, err := sql.Open(
         "mysql", 
-        "luizkawai7:IfiloseMyself1192@tcp(west2-mysql-arquitecturabd.cxrckrb6tfbt.us-west-2.rds.amazonaws.com:3306)/ArquitecturaBD")
+        CxStr)
     if err != nil{
         log.Printf(err.Error())
     }
@@ -110,7 +110,7 @@ func QueryEmployees()([]Employee) {
 func QueryEmployee(id int)(Employee) {
     db, err := sql.Open(
         "mysql", 
-        "luizkawai7:IfiloseMyself1192@tcp(west2-mysql-arquitecturabd.cxrckrb6tfbt.us-west-2.rds.amazonaws.com:3306)/ArquitecturaBD")
+        CxStr)
     if err != nil{
         log.Printf(err.Error())
     }
