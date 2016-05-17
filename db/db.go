@@ -74,33 +74,6 @@ func Query() {
 
 }
 
-func QueryEmployee(id int) Employee {
-	db, err := sql.Open("mysql", CxStr)
-	if err != nil {
-		log.Printf(err.Error())
-	}
-
-	defer db.Close()
-
-	// Execute the query
-	query := "SELECT id, name, address FROM Employees where id=?"
-	fmt.Println(query)
-	rows, err := db.Query(query, id) //SELECT * FROM table
-	if err != nil {
-		panic(err.Error()) // proper error handling instead of panic in your app
-	}
-
-	emp := new(Employee)
-
-	if rows.Next() {
-		err1 := rows.Scan(&emp.Id, &emp.Name, &emp.Mail)
-		if err1 != nil {
-			panic(err1.Error())
-		}
-	}
-	return *emp
-}
-
 // ---- ARQUITECTURABD ---
 
 func ConsultaEscuelas() []Escuela {
@@ -161,4 +134,31 @@ func ConsultaAdministradores() []Administrador {
 		}
 	}
 	return regs
+}
+
+func ConsultaUbicacion(id string) Ubicacion {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "SELECT idubicacion, latitud, longitud, foto  FROM ubicacion WHERE idubicacion=?"
+	fmt.Println(query)
+	rows, err := db.Query(query, id) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	ubi := new(Ubicacion)
+
+	if rows.Next() {
+		err1 := rows.Scan(&ubi.Id, &ubi.Latitud, &ubi.Longitud, &ubi.Foto)
+		if err1 != nil {
+			panic(err1.Error())
+		}
+	}
+	return *ubi
 }

@@ -36,3 +36,10 @@ type Facultad struct {
 	IdUbicacion     string
 	IdAdministrador string
 }
+
+type Ubicacion struct {
+	Id       string
+	Latitud  string
+	Longitud string
+	Foto     []byte
+}
