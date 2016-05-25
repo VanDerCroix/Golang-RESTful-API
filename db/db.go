@@ -166,7 +166,7 @@ func ConsultaAdministradores() []Administrador {
 	return adms
 }
 
-func ConsultaUbicacion(id string) Ubicacion {
+func ConsultaNoticias() []Noticia {
 	db, err := sql.Open("mysql", CxStr)
 	if err != nil {
 		log.Printf(err.Error())
@@ -175,20 +175,83 @@ func ConsultaUbicacion(id string) Ubicacion {
 	defer db.Close()
 
 	// Execute the query
-	query := "SELECT idubicacion, latitud, longitud, foto  FROM ubicacion WHERE idubicacion=?"
+	query := "SELECT idNoticia, encabezado, cuerpo, fecha, idAdministrador FROM noticias"
 	fmt.Println(query)
-	rows, err := db.Query(query, id) //SELECT * FROM table
+	rows, err := db.Query(query) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	not := new(Noticia)
+	nots := []Noticia{}
+	for rows.Next() {
+		err1 := rows.Scan(&not.Id, &not.Titulo, &not.Descripcion, &not.Fecha, &not.IdAdministrador)
+		if err1 != nil {
+			panic(err1.Error())
+		} else {
+			//log.Println("emp: ", id, name, mail)
+			nots = append(nots, *not)
+		}
+	}
+	return nots
+}
+
+func ConsultaUbicaciones() []Ubicacion {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "SELECT idUbicacion, latitud, longitud, foto FROM ubicacion"
+	fmt.Println(query)
+	rows, err := db.Query(query) //SELECT * FROM table
 	if err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
 
 	ubi := new(Ubicacion)
-
-	if rows.Next() {
-		err1 := rows.Scan(&ubi.Id, &ubi.Latitud, &ubi.Longitud, &ubi.Foto)
+	ubis := []Ubicacion{}
+	for rows.Next() {
+		err1 := rows.Scan(&ubi.Id, &ubi.Latitud, &ubi.Longitud, &ubi.URLFoto)
 		if err1 != nil {
 			panic(err1.Error())
+		} else {
+			//log.Println("emp: ", id, name, mail)
+			ubis = append(ubis, *ubi)
 		}
 	}
-	return *ubi
+	return ubis
+}
+
+func ConsultaAreasUniversidad() []AreasUniversidad {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "SELECT idAreasuniversidad, nombreAU, idUniversidad, idUbicacion, idAdministrador FROM areasuniversidad"
+	fmt.Println(query)
+	rows, err := db.Query(query) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	asu := new(AreasUniversidad)
+	asus := []AreasUniversidad{}
+	for rows.Next() {
+		err1 := rows.Scan(&asu.Id, &asu.Nombre, &asu.IdUniversidad, &asu.IdUbicacion, &asu.IdAdministrador)
+		if err1 != nil {
+			panic(err1.Error())
+		} else {
+			//log.Println("emp: ", id, name, mail)
+			asus = append(asus, *asu)
+		}
+	}
+	return asus
 }

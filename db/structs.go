@@ -30,9 +30,25 @@ type Escuela struct {
 	IdAdministrador string
 }
 
+type Noticia struct {
+	Id              string
+	Titulo          string
+	Descripcion     string
+	Fecha      		string
+	IdAdministrador string
+}
+
 type Ubicacion struct {
-	Id       string
-	Latitud  string
-	Longitud string
-	Foto     string
+	Id              string
+	Latitud         string
+	Longitud  	   	string
+	URLFoto    		string
+}
+
+type AreasUniversidad struct{
+	Id 				string
+	Nombre 			string
+	IdUniversidad 	string
+	IdUbicacion 	string
+	IdAdministrador string
 }

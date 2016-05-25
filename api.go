@@ -21,7 +21,9 @@ func main() {
 		&rest.Route{"GET", "/facultades", Facultades_handler},
 		&rest.Route{"GET", "/escuelas", Escuelas_handler},
 		&rest.Route{"GET", "/administradores", Administradores_handler},
-		&rest.Route{"GET", "/ubicacion/:id", Ubicacion_handler},
+		&rest.Route{"GET", "/noticias", Noticias_handler},
+		&rest.Route{"GET", "/ubicacion", Ubicacion_handler},
+		&rest.Route{"GET", "/areasuniversidad", AreasUniversidad_handler},
 	)
 
 	if err != nil {
@@ -65,9 +67,17 @@ func Administradores_handler(w rest.ResponseWriter, r *rest.Request) {
 	w.WriteJson(admins)
 }
 
-func Ubicacion_handler(w rest.ResponseWriter, r *rest.Request) {
-	idubi := r.PathParam("id")
+func Noticias_handler(w rest.ResponseWriter, r *rest.Request) {
+	news := datos.ConsultaNoticias()
+	w.WriteJson(news)
+}
 
-	ubicacion := datos.ConsultaUbicacion(idubi)
-	w.WriteJson(ubicacion)
+func Ubicacion_handler(w rest.ResponseWriter, r *rest.Request) {
+	ubis := datos.ConsultaUbicaciones()
+	w.WriteJson(ubis)
+}
+
+func AreasUniversidad_handler(w rest.ResponseWriter, r *rest.Request) {
+	asus := datos.ConsultaAreasUniversidad()
+	w.WriteJson(asus)
 }
