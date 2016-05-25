@@ -92,7 +92,7 @@ func ConsultaFacultades() []Facultad {
 	}
 
 	fac := new(Facultad)
-	facs := []Administrador{}
+	facs := []Facultad{}
 	for rows.Next() {
 		err1 := rows.Scan(&fac.Id, &fac.Nombre, &fac.IdAutoridad, &fac.IdUniversidad, &fac.IdUbicacion, &fac.IdAdministrador)
 		if err1 != nil {
