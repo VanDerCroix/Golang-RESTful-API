@@ -75,6 +75,36 @@ func Query() {
 }
 
 // ---- ARQUITECTURABD ---
+func ConsultaFacultades() []Facultad {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "SELECT idFacultadxsede, nombreF, idAutoridad, idUniversidad, idUbicacion, idAdministrador FROM facultadxsede"
+	fmt.Println(query)
+	rows, err := db.Query(query) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	fac := new(Facultad)
+	facs := []Administrador{}
+	for rows.Next() {
+		err1 := rows.Scan(&fac.Id, &fac.Nombre, &fac.IdAutoridad, &fac.IdUniversidad, &fac.IdUbicacion, &fac.IdAdministrador)
+		if err1 != nil {
+			panic(err1.Error())
+		} else {
+			//log.Println("emp: ", id, name, mail)
+			facs = append(facs, *fac)
+		}
+	}
+	return facs
+}
+
 
 func ConsultaEscuelas() []Escuela {
 	db, err := sql.Open("mysql", CxStr)
@@ -85,7 +115,7 @@ func ConsultaEscuelas() []Escuela {
 	defer db.Close()
 
 	// Execute the query
-	query := "SELECT idescuela, nombree, idautoridad, idfacultad, idadministrador FROM escuela"
+	query := "SELECT idEscuela, nombreE, idAutoridad, idFacultadxsede, idAdministrador FROM escuela"
 	fmt.Println(query)
 	rows, err := db.Query(query) //SELECT * FROM table
 	if err != nil {
@@ -122,18 +152,18 @@ func ConsultaAdministradores() []Administrador {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
 
-	reg := new(Administrador)
-	regs := []Administrador{}
+	adm := new(Administrador)
+	adms := []Administrador{}
 	for rows.Next() {
-		err1 := rows.Scan(&reg.Id, &reg.Nombre, &reg.Correo, &reg.Contrasena)
+		err1 := rows.Scan(&adm.Id, &adm.Nombre, &adm.Correo, &adm.Contrasena)
 		if err1 != nil {
 			panic(err1.Error())
 		} else {
 			//log.Println("emp: ", id, name, mail)
-			regs = append(regs, *reg)
+			adms = append(adms, *adm)
 		}
 	}
-	return regs
+	return adms
 }
 
 func ConsultaUbicacion(id string) Ubicacion {

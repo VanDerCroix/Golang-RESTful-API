@@ -18,6 +18,7 @@ func main() {
 		&rest.Route{"GET", "/empleados/:id", Empleado_handler},*/
 
 		// ---- ARQUITECTURABD ---
+		&rest.Route{"GET", "/facultades", Facultades_handler},
 		&rest.Route{"GET", "/escuelas", Escuelas_handler},
 		&rest.Route{"GET", "/administradores", Administradores_handler},
 		&rest.Route{"GET", "/ubicacion/:id", Ubicacion_handler},
@@ -49,6 +50,11 @@ func Ubicacion_handler(w rest.ResponseWriter, r *rest.Request) {
 }*/
 
 // ---- ARQUITECTURABD ---
+func Facultades_handler(w rest.ResponseWriter, r *rest.Request) {
+	facultad := datos.ConsultaFacultades()
+	w.WriteJson(facultad)
+}
+
 func Escuelas_handler(w rest.ResponseWriter, r *rest.Request) {
 	escuelas := datos.ConsultaEscuelas()
 	w.WriteJson(escuelas)
