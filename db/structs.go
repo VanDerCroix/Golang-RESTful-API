@@ -4,10 +4,8 @@ package mysqldb
 type Facultad struct {
 	Id              string
 	Nombre          string
-	IdAutoridad     string
-	IdUniversidad   string
-	IdUbicacion     string
-	IdAdministrador string
+	Autoridad       string
+	URLFoto		    string
 }
 
 type Administrador struct {

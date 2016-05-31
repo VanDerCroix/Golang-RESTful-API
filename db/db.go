@@ -84,7 +84,9 @@ func ConsultaFacultades() []Facultad {
 	defer db.Close()
 
 	// Execute the query
-	query := "SELECT idFacultadxsede, nombreF, idAutoridad, idUniversidad, idUbicacion, idAdministrador FROM facultadxsede"
+	query := "select f.idFacultadxsede, f.nombreF, a.nombreAut, ub.urlfoto from facultadxsede f 
+				join ubicacion ub on f.idUbicacion = ub.idUbicacion
+				join autoridad a on f.idAutoridad = a.idAutoridad;"
 	fmt.Println(query)
 	rows, err := db.Query(query) //SELECT * FROM table
 	if err != nil {
@@ -94,11 +96,10 @@ func ConsultaFacultades() []Facultad {
 	fac := new(Facultad)
 	facs := []Facultad{}
 	for rows.Next() {
-		err1 := rows.Scan(&fac.Id, &fac.Nombre, &fac.IdAutoridad, &fac.IdUniversidad, &fac.IdUbicacion, &fac.IdAdministrador)
+		err1 := rows.Scan(&fac.Id, &fac.Nombre, &fac.Autoridad, &fac.URLFoto)
 		if err1 != nil {
 			panic(err1.Error())
 		} else {
-			//log.Println("emp: ", id, name, mail)
 			facs = append(facs, *fac)
 		}
 	}
