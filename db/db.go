@@ -84,9 +84,7 @@ func ConsultaFacultades() []Facultad {
 	defer db.Close()
 
 	// Execute the query
-	query := "select f.idFacultadxsede, f.nombreF, a.nombreAut, ub.urlfoto from facultadxsede f 
-				join ubicacion ub on f.idUbicacion = ub.idUbicacion
-				join autoridad a on f.idAutoridad = a.idAutoridad;"
+	query := "select f.idFacultadxsede, f.nombreF, a.nombreAut, ub.urlfoto from facultadxsede f join ubicacion ub on f.idUbicacion = ub.idUbicacion join autoridad a on f.idAutoridad = a.idAutoridad"
 	fmt.Println(query)
 	rows, err := db.Query(query) //SELECT * FROM table
 	if err != nil {
