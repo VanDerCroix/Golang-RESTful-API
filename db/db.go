@@ -104,6 +104,32 @@ func ConsultaFacultades() []Facultad {
 	return facs
 }
 
+func ConsultaFacultad(id string) Facultad {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "select f.idFacultadxsede, f.nombreF, a.nombreAut, ub.urlfoto from facultadxsede f join ubicacion ub on f.idUbicacion = ub.idUbicacion join autoridad a on f.idAutoridad = a.idAutoridad where f.idFacultadxsede=?"
+	fmt.Println(query)
+	rows, err := db.Query(query, id) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	fac := new(Facultad)
+
+	if rows.Next() {
+		err1 := rows.Scan(&fac.Id, &fac.Nombre, &fac.Autoridad, &fac.URLFoto)
+		if err1 != nil {
+			panic(err1.Error())
+		}
+	}
+	return *fac
+}
 
 func ConsultaEscuelas() []Escuela {
 	db, err := sql.Open("mysql", CxStr)
