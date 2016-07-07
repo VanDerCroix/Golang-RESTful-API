@@ -131,6 +131,37 @@ func ConsultaFacultad(id string) Facultad {
 	return *fac
 }
 
+func ConsultaFacultadDetalles(id string) FacultadDetalles {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "select f.idFacultadxsede, f.nombreF, a.nombreAut, f.idUbicacion from facultadxsede f join autoridad a on f.idAutoridad = a.idAutoridad where f.idFacultadxsede=?"
+	fmt.Println(query)
+	rows, err := db.Query(query, id) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	fac := new(FacultadDetalles)
+
+	if rows.Next() {
+		err1 := rows.Scan(&fac.Id, &fac.Nombre, &fac.Autoridad, &fac.IdUbicacion)
+		if err1 != nil {
+			panic(err1.Error())
+		}
+	}
+	//get ubicacion strucut
+	fac.Ubicacion = ConsultaUbicacion(fac.IdUbicacion)
+	//get escuales array
+	fac.Escuelas = ConsultaEscuelasxFacu(fac.Id)
+	return *fac
+}
+
 func ConsultaEscuelas() []Escuela {
 	db, err := sql.Open("mysql", CxStr)
 	if err != nil {
@@ -159,6 +190,36 @@ func ConsultaEscuelas() []Escuela {
 		}
 	}
 	return escs
+}
+
+func ConsultaEscuelasxFacu(id string) []Escuela{
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "SELECT idEscuela, nombreE, idAutoridad, idFacultadxsede, idAdministrador FROM escuela WHERE idFacultadxsede=?"
+	fmt.Println(query)
+	rows, err := db.Query(query, id) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	esc := new(Escuela)
+	escs := []Escuela{}
+	for rows.Next() {
+		err1 := rows.Scan(&esc.Id, &esc.Nombre, &esc.IdAutoridad, &esc.IdFacultad, &esc.IdAdministrador)
+		if err1 != nil {
+			panic(err1.Error())
+		} else {
+			//log.Println("emp: ", id, name, mail)
+			escs = append(escs, *esc)
+		}
+	}
+	return escs	
 }
 
 func ConsultaAdministradores() []Administrador {
@@ -230,7 +291,7 @@ func ConsultaUbicaciones() []Ubicacion {
 	defer db.Close()
 
 	// Execute the query
-	query := "SELECT idUbicacion, latitud, longitud, foto FROM ubicacion"
+	query := "SELECT idUbicacion, latitud, longitud, urlfoto FROM ubicacion"
 	fmt.Println(query)
 	rows, err := db.Query(query) //SELECT * FROM table
 	if err != nil {
@@ -249,6 +310,33 @@ func ConsultaUbicaciones() []Ubicacion {
 		}
 	}
 	return ubis
+}
+
+func ConsultaUbicacion(id string) Ubicacion {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "SELECT idUbicacion, latitud, longitud, urlfoto FROM ubicacion WHERE idUbicacion=?"
+	fmt.Println(query)
+	rows, err := db.Query(query, id) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	ubi := new(Ubicacion)
+	//ubis := []Ubicacion{}
+	if rows.Next() {
+		err1 := rows.Scan(&ubi.Id, &ubi.Latitud, &ubi.Longitud, &ubi.URLFoto)
+		if err1 != nil {
+			panic(err1.Error())
+		}
+	}
+	return *ubi
 }
 
 func ConsultaAreasUniversidad() []AreasUniversidad {

@@ -8,6 +8,15 @@ type Facultad struct {
 	URLFoto		    string
 }
 
+type FacultadDetalles struct {
+	Id string
+	Nombre string
+	Autoridad string
+	IdUbicacion string
+	Ubicacion Ubicacion
+	Escuelas []Escuela
+}
+
 type Administrador struct {
 	Id         string
 	Nombre     string
