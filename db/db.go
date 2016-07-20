@@ -348,7 +348,7 @@ func ConsultaAreasUniversidad() []AreasUniversidad {
 	defer db.Close()
 
 	// Execute the query
-	query := "SELECT idAreasuniversidad, nombreAU, idUniversidad, idUbicacion, idAdministrador, urlfoto FROM areasuniversidad"
+	query := "SELECT au.idAreasuniversidad, au.nombreAU, au.idUniversidad, au.idUbicacion, au.idAdministrador, u.urlfoto FROM areasuniversidad au JOIN ubicacion u ON au.idUbicacion = u.idUbicacion"
 	fmt.Println(query)
 	rows, err := db.Query(query) //SELECT * FROM table
 	if err != nil {
