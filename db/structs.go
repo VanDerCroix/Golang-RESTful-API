@@ -58,4 +58,5 @@ type AreasUniversidad struct{
 	IdUniversidad 	string
 	IdUbicacion 	string
 	IdAdministrador string
+	URL string
 }
