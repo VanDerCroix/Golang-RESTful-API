@@ -348,7 +348,7 @@ func ConsultaAreasUniversidad() []AreasUniversidad {
 	defer db.Close()
 
 	// Execute the query
-	query := "SELECT idAreasuniversidad, nombreAU, idUniversidad, idUbicacion, idAdministrador FROM areasuniversidad"
+	query := "SELECT idAreasuniversidad, nombreAU, idUniversidad, idUbicacion, idAdministrador, urlfoto FROM areasuniversidad"
 	fmt.Println(query)
 	rows, err := db.Query(query) //SELECT * FROM table
 	if err != nil {
@@ -358,7 +358,7 @@ func ConsultaAreasUniversidad() []AreasUniversidad {
 	asu := new(AreasUniversidad)
 	asus := []AreasUniversidad{}
 	for rows.Next() {
-		err1 := rows.Scan(&asu.Id, &asu.Nombre, &asu.IdUniversidad, &asu.IdUbicacion, &asu.IdAdministrador)
+		err1 := rows.Scan(&asu.Id, &asu.Nombre, &asu.IdUniversidad, &asu.IdUbicacion, &asu.IdAdministrador, &asu.URL)
 		if err1 != nil {
 			panic(err1.Error())
 		} else {
