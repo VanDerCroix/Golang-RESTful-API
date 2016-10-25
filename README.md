@@ -10,5 +10,8 @@ POST USAGE
 insert a new user
 
 ```
-curl -X POST -H "Content-Type: application/json" -d "{\"DNIUsuario\": 49186284,\"NombreUsuario\": \"Chico Registro de Prueba\",\"Peso\": 50.15,\"Talla\": 170.15,\"Sexo\": \"M\",\"TipoSangre\": \"RH+\",\"MensajePrederteminado\": \"aiudaaaa\"}" http://127.0.0.1:9988/postusuario
+curl -X POST -H "Content-Type: application/json" -d "{\"DNIUsuario\": 61845192,\"NombreUsuario\": \"Chino Registro de Prueba\",\"Peso\": 51.15,\"Talla\": 180.15,\"Sexo\": \"M\",\"TipoSangre\": \"O-\",\"MensajePrederteminado\": \"habla gud\"}" http://54.190.14.3:9988/postusuario
 ```
+
+USER LIST
+http://54.190.14.3:9988/usuario
