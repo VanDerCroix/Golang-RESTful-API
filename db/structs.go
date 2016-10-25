@@ -1,7 +1,26 @@
 package mysqldb
 
+
+// ---- CALIDAD SOS ---
+type Usuario struct{
+	DNIUsuario int
+	NombreUsuario string
+	Peso float32
+	Talla float32
+	Sexo string
+	TipoSangre string
+	MensajePrederteminado string
+}
+
+type Contacto struct{
+	IdContacto int
+	Usuario_DNIUsuario int
+	NumeroTelef int
+	NombreContacto string
+}
+
 // ---- ARQUITECTURABD ---
-type Facultad struct {
+/*type Facultad struct {
 	Id              string
 	Nombre          string
 	Autoridad       string
@@ -59,4 +78,4 @@ type AreasUniversidad struct{
 	IdUbicacion 	string
 	IdAdministrador string
 	URL string
-}
+}*/
