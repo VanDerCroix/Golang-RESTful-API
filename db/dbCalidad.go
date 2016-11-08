@@ -20,7 +20,7 @@ func ConsultaUsuarios() []Usuario {
 	defer db.Close()
 
 	// Execute the query
-	query := "select DNIUsuario, NombreUsuario from Usuario"
+	query := "select DNIUsuario, NombreUsuario, Peso, Talla, Sexo, TipoSangre, MensajePredeterminado from Usuario"
 	fmt.Println(query)
 	rows, err := db.Query(query) //SELECT * FROM table
 	if err != nil {
@@ -30,7 +30,7 @@ func ConsultaUsuarios() []Usuario {
 	user := new(Usuario)
 	users := []Usuario{}
 	for rows.Next() {
-		err1 := rows.Scan(&user.DNIUsuario, &user.NombreUsuario)
+		err1 := rows.Scan(&user.DNIUsuario, &user.NombreUsuario, &user.Peso, &user.Talla, &user.Sexo, &user.TipoSangre, &user.MensajePrederteminado)
 		if err1 != nil {
 			panic(err1.Error())
 		} else {
