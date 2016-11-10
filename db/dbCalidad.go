@@ -5,6 +5,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
+	"strconv"
 )
 
 func main() {
@@ -38,6 +39,64 @@ func ConsultaUsuarios() []Usuario {
 		}
 	}
 	return users
+}
+
+func ConsultaContactos(dni int) []Contacto {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "select NombreContacto, NumeroTelef from Contacto where Usuario_DNIUsuario = ?"
+	fmt.Println(query)
+	rows, err := db.Query(query, dni) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	contacto := new(Contacto)
+	contactos := []Contacto{}
+	for rows.Next() {
+		err1 := rows.Scan(&contacto.NombreContacto, &contacto.NumeroTelef)
+		if err1 != nil {
+			panic(err1.Error())
+		} else {
+			contactos = append(contactos, *contacto)
+		}
+	}
+	return contactos
+}
+
+func ConsultaCentrosAtencion() []CentroAtencion {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "select c.Latitud, c.Longitud, c.NombreCentAten, c.Direccion, c.Telefono, c.URLFoto, d.NombreDistrito from Centros_de_Atencion c join Distrito d on c.Distrito_Id = d.Id order by d.Id"
+	fmt.Println(query)
+	rows, err := db.Query(query) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	centro := new(CentroAtencion)
+	centros := []CentroAtencion{}
+	for rows.Next() {
+		err1 := rows.Scan(&centro.Latitud, &centro.Longitud, &centro.NombreCentAten, &centro.Direccion, &centro.Telefono, &centro.URLFoto, &centro.Direccion
+		if err1 != nil {
+			panic(err1.Error())
+		} else {
+			centros = append(centros, *centro)
+		}
+	}
+	return centros
 }
 
 func InsertarUsuario(usr Usuario) {

@@ -15,9 +15,20 @@ type Usuario struct{
 type Contacto struct{
 	IdContacto int
 	Usuario_DNIUsuario int
-	NumeroTelef int
+	NumeroTelef string
 	NombreContacto string
 }
+
+type CentrosAtencion struct{
+	Latitud float32
+	Longitud float32
+	NombreCentAten string
+	Direccion string
+	telefono int
+	URLFoto string
+	Distrito string
+}
+
 
 // ---- ARQUITECTURABD ---
 /*type Facultad struct {

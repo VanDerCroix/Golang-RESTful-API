@@ -27,6 +27,8 @@ func main() {
 
 		// ---- CALIDAD SOS ---
 		&rest.Route{"GET", "/usuario", Usuario_handler},
+		&rest.Route{"GET", "/usuario/:dni/contacto", Contacto_handler},
+		&rest.Route{"GET", "/centrosatencion", Centros_Atencion_handler},
 		&rest.Route{"POST", "/postusuario", PostUsuario_handler},
 	)
 
@@ -77,6 +79,18 @@ func Facultad_handler(w rest.ResponseWriter, r *rest.Request) {
 func Usuario_handler(w rest.ResponseWriter, r *rest.Request) {
 	usuarios := datos.ConsultaUsuarios()
 	w.WriteJson(usuarios)
+}
+
+func Contacto_handler(w rest.ResponseWriter, r *rest.Request) {
+	userdni := r.PathParam("dni")
+	dni, err := strconv.Atoi(userdni)
+	contactos := datos.ConsultaContactos(dni)
+	w.WriteJson(contactos)
+}
+
+func Centros_Atencion_handler(w rest.ResponseWriter, r *rest.Request){
+centros_atencion := datos.ConsultaCentrosAtencion()
+	w.WriteJson(centros_atencion)	
 }
 
 func PostUsuario_handler(w rest.ResponseWriter, r *rest.Request) {
