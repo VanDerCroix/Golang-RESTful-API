@@ -83,7 +83,7 @@ func Usuario_handler(w rest.ResponseWriter, r *rest.Request) {
 
 func Contacto_handler(w rest.ResponseWriter, r *rest.Request) {
 	userdni := r.PathParam("dni")
-	dni, err := strconv.Atoi(userdni)
+	dni, _ := strconv.Atoi(userdni)
 	contactos := datos.ConsultaContactos(dni)
 	w.WriteJson(contactos)
 }
