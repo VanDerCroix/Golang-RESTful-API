@@ -86,7 +86,7 @@ func ConsultaCentrosAtencion() []CentroAtencion {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
 
-	centro := new(CentroAtencion)
+	centro := new(CentrosAtencion)
 	centros := []CentroAtencion{}
 	for rows.Next() {
 		err1 := rows.Scan(&centro.Latitud, &centro.Longitud, &centro.NombreCentAten, &centro.Direccion, &centro.Telefono, &centro.URLFoto, &centro.Direccion)
@@ -123,35 +123,6 @@ func InsertarUsuario(usr Usuario) {
 	if id != 0 {
 		log.Printf("expected InsertId 0, got %d", id)
 	}
-}
-
-func ConsultaContactos() []Contacto {
-	db, err := sql.Open("mysql", CxStr)
-	if err != nil {
-		log.Printf(err.Error())
-	}
-
-	defer db.Close()
-
-	// Execute the query
-	query := "select Usuario_DNIUsuario, NumeroTelef, NombreContacto from Contacto"
-	fmt.Println(query)
-	rows, err := db.Query(query) //SELECT * FROM table
-	if err != nil {
-		panic(err.Error()) // proper error handling instead of panic in your app
-	}
-
-	user := new(Contacto)
-	users := []Contacto{}
-	for rows.Next() {
-		err1 := rows.Scan(&user.Usuario_DNIUsuario, &user.NumeroTelef, &user.NombreContacto)
-		if err1 != nil {
-			panic(err1.Error())
-		} else {
-			users = append(users, *user)
-		}
-	}
-	return users
 }
 
 func mustExec(db *sql.DB, query string, args ...interface{}) (res sql.Result) {
