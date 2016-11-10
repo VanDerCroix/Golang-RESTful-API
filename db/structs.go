@@ -24,7 +24,7 @@ type CentrosAtencion struct{
 	Longitud float32
 	NombreCentAten string
 	Direccion string
-	telefono int
+	Telefono int
 	URLFoto string
 	Distrito string
 }

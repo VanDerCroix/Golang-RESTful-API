@@ -70,7 +70,7 @@ func ConsultaContactos(dni int) []Contacto {
 	return contactos
 }
 
-func ConsultaCentrosAtencion() []CentroAtencion {
+func ConsultaCentrosAtencion() []CentrosAtencion {
 	db, err := sql.Open("mysql", CxStr)
 	if err != nil {
 		log.Printf(err.Error())
@@ -87,7 +87,7 @@ func ConsultaCentrosAtencion() []CentroAtencion {
 	}
 
 	centro := new(CentrosAtencion)
-	centros := []CentroAtencion{}
+	centros := []CentrosAtencion{}
 	for rows.Next() {
 		err1 := rows.Scan(&centro.Latitud, &centro.Longitud, &centro.NombreCentAten, &centro.Direccion, &centro.Telefono, &centro.URLFoto, &centro.Direccion)
 		if err1 != nil {
