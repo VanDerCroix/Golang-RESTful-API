@@ -89,7 +89,7 @@ func ConsultaCentrosAtencion() []CentroAtencion {
 	centro := new(CentroAtencion)
 	centros := []CentroAtencion{}
 	for rows.Next() {
-		err1 := rows.Scan(&centro.Latitud, &centro.Longitud, &centro.NombreCentAten, &centro.Direccion, &centro.Telefono, &centro.URLFoto, &centro.Direccion
+		err1 := rows.Scan(&centro.Latitud, &centro.Longitud, &centro.NombreCentAten, &centro.Direccion, &centro.Telefono, &centro.URLFoto, &centro.Direccion)
 		if err1 != nil {
 			panic(err1.Error())
 		} else {
