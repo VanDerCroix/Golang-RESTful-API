@@ -49,7 +49,7 @@ type Subcategoria struct{
 	URLFoto string
 }
 
-type Recomendacio struct{
+type Recomendacion struct{
 	IdRecomendacion int
 	Parte int
 	Descripcion string

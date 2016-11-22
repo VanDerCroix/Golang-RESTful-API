@@ -190,7 +190,7 @@ func ConsultaSubcategorias(id int) []Subcategoria {
 	return subcategorias
 }
 
-func ConsultaRecomendacion(id int) []Recomendacio {
+func ConsultaRecomendacion(id int) []Recomendacion {
 	db, err := sql.Open("mysql", CxStr)
 	if err != nil {
 		log.Printf(err.Error())
@@ -206,14 +206,14 @@ func ConsultaRecomendacion(id int) []Recomendacio {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
 
-	recomendacio := new(Recomendacio)
-	recomendacios := []Recomendacio{}
+	recomendacion := new(Recomendacion)
+	recomendacios := []Recomendacion{}
 	for rows.Next() {
-		err1 := rows.Scan(&recomendacio.IdRecomendacion, &recomendacio.Parte, &recomendacio.Descripcion, &subcategoria.Sub_Categoria_Id)
+		err1 := rows.Scan(&recomendacion.IdRecomendacion, &recomendacion.Parte, &recomendacion.Descripcion, &recomendacion.Sub_Categoria_Id)
 		if err1 != nil {
 			panic(err1.Error())
 		} else {
-			recomendacios = append(recomendacios, *recomendacio)
+			recomendacios = append(recomendacios, *recomendacion)
 		}
 	}
 	return recomendacios
