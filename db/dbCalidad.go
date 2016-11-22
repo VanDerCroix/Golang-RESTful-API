@@ -79,7 +79,7 @@ func ConsultaAlergias(dni int) []Alergia {
 	defer db.Close()
 
 	// Execute the query
-	query := "select IdAlergias, NombreAlergia, Medicacion from Alergia where Usuario_DNIUsuario = ?"
+	query := "select IdAlergias, NombreAlergia, Medicacion from Alergias where Usuario_DNIUsuario = ?"
 	fmt.Println(query)
 	rows, err := db.Query(query, dni) //SELECT * FROM table
 	if err != nil {
