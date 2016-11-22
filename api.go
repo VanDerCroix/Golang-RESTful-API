@@ -19,10 +19,13 @@ func main() {
 		&rest.Route{"GET", "/usuario", Usuario_handler},
 		&rest.Route{"GET", "/usuario/:dni/contacto", Contacto_handler},
 		&rest.Route{"GET", "/usuario/:dni/alergia", Alergia_handler},
+		////////////////////////////////////////////////////////////////////////////
 		&rest.Route{"GET", "/centrosatencion", Centros_Atencion_handler},
+		////////////////////////////////////////////////////////////////////////////
 		&rest.Route{"GET", "/categorias", Categorias_handler},
-		&rest.Route{"GET", "/subcategorias/:categoriaid", Sub_Categorias_handler},
-		&rest.Route{"GET", "/recomendacion/:subcategoriaid", Recomendacion_handler},
+		&rest.Route{"GET", "/categorias/:categoriaid/subcategorias", Sub_Categorias_handler},
+		&rest.Route{"GET", "/categorias/subcategoria/:subcategoriaid/recomendacion", Recomendacion_handler},
+		/////////////////////////////////////////////////////////////////////////////
 		&rest.Route{"POST", "/postusuario", PostUsuario_handler},
 		&rest.Route{"POST", "/postcontacto", PostContacto_handler},
 		&rest.Route{"POST", "/postalergia", PostAlergia_handler},
@@ -82,27 +85,27 @@ func Alergia_handler(w rest.ResponseWriter, r *rest.Request) {
 
 //////////////////////////////////////////////////////////////////////////
 func Centros_Atencion_handler(w rest.ResponseWriter, r *rest.Request){
-centros_atencion := datos.ConsultaCentrosAtencion()
+	centros_atencion := datos.ConsultaCentrosAtencion()
 	w.WriteJson(centros_atencion)	
 }
 
 //////////////////////////////////////////////////////////////////////////
 
 func Categorias_handler(w rest.ResponseWriter, r *rest.Request){
-categorias := datos.ConsultaCategorias()
-	w.WriteJson(centros_atencion)	
+	categorias := datos.ConsultaCategorias()
+	w.WriteJson(categorias)	
 }
 
 func Sub_Categorias_handler(w rest.ResponseWriter, r *rest.Request) {
-	categoriaid := r.PathParam("categoriaid")
-	id, _ := strconv.Atoi(categoriaid)
+	cateid := r.PathParam("categoriaid")
+	id, _ := strconv.Atoi(cateid)
 	subcategorias := datos.ConsultaSubcategorias(id)
 	w.WriteJson(subcategorias)
 }
 
 func Recomendacion_handler(w rest.ResponseWriter, r *rest.Request) {
-	subcategoriaid := r.PathParam("subcategoriaid")
-	id, _ := strconv.Atoi(subcategoriaid)
+	subcateid := r.PathParam("subcategoriaid")
+	id, _ := strconv.Atoi(subcateid)
 	recomendacion := datos.ConsultaRecomendacion(id)
 	w.WriteJson(recomendacion)
 }
