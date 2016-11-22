@@ -50,7 +50,7 @@ func ConsultaContactos(dni int) []Contacto {
 	defer db.Close()
 
 	// Execute the query
-	query := "select NombreContacto, NumeroTelef from Contacto where Usuario_DNIUsuario = ?"
+	query := "select IdContacto, Usuario_DNIUsuario, NombreContacto, NumeroTelef from Contacto where Usuario_DNIUsuario = ?"
 	fmt.Println(query)
 	rows, err := db.Query(query, dni) //SELECT * FROM table
 	if err != nil {
