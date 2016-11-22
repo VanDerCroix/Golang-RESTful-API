@@ -15,21 +15,14 @@ func main() {
 	router, err := rest.MakeRouter(
 		&rest.Route{"GET", "/ejemplo1", Ejemplo1_handler},
 		&rest.Route{"GET", "/ejemplo2", Ejemplo2_handler},
-		// ---- ARQUITECTURABD ---
-		/*&rest.Route{"GET", "/facultades", Facultades_handler},
-		&rest.Route{"GET", "/facultades/:id", Facultad_handler},
-		&rest.Route{"GET", "/escuelas", Escuelas_handler},
-		&rest.Route{"GET", "/escuelasxfacu/:id", EscuelasxFacu_handler},
-		&rest.Route{"GET", "/administradores", Administradores_handler},
-		&rest.Route{"GET", "/noticias", Noticias_handler},
-		&rest.Route{"GET", "/ubicacion", Ubicacion_handler},
-		&rest.Route{"GET", "/areasuniversidad", AreasUniversidad_handler},*/
-
 		// ---- CALIDAD SOS ---
 		&rest.Route{"GET", "/usuario", Usuario_handler},
 		&rest.Route{"GET", "/usuario/:dni/contacto", Contacto_handler},
 		&rest.Route{"GET", "/usuario/:dni/alergia", Alergia_handler},
 		&rest.Route{"GET", "/centrosatencion", Centros_Atencion_handler},
+		&rest.Route{"GET", "/categorias", Categorias_handler},
+		&rest.Route{"GET", "/subcategorias/:categoriaid", Sub_Categorias_handler},
+		&rest.Route{"GET", "/recomendacion/:subcategoriaid", Recomendacion_handler},
 		&rest.Route{"POST", "/postusuario", PostUsuario_handler},
 		&rest.Route{"POST", "/postcontacto", PostContacto_handler},
 		&rest.Route{"POST", "/postalergia", PostAlergia_handler},
@@ -66,19 +59,8 @@ func Ejemplo2_handler(w rest.ResponseWriter, r *rest.Request) {
 	})
 }
 
-// ---- ARQUITECTURABD ---
-/*func Facultades_handler(w rest.ResponseWriter, r *rest.Request) {
-	facultad := datos.ConsultaFacultades()
-	w.WriteJson(facultad)
-}
-
-func Facultad_handler(w rest.ResponseWriter, r *rest.Request) {
-	facuid := r.PathParam("id")
-	facultad := datos.ConsultaFacultadDetalles(facuid)
-	w.WriteJson(facultad)
-}*/
-
 // ---- CALIDAD SOS ---
+/////////////////////////////////////////////////////////////////////////
 func Usuario_handler(w rest.ResponseWriter, r *rest.Request) {
 	usuarios := datos.ConsultaUsuarios()
 	w.WriteJson(usuarios)
@@ -98,10 +80,34 @@ func Alergia_handler(w rest.ResponseWriter, r *rest.Request) {
 	w.WriteJson(alergias)
 }
 
+//////////////////////////////////////////////////////////////////////////
 func Centros_Atencion_handler(w rest.ResponseWriter, r *rest.Request){
 centros_atencion := datos.ConsultaCentrosAtencion()
 	w.WriteJson(centros_atencion)	
 }
+
+//////////////////////////////////////////////////////////////////////////
+
+func Categorias_handler(w rest.ResponseWriter, r *rest.Request){
+categorias := datos.ConsultaCategorias()
+	w.WriteJson(centros_atencion)	
+}
+
+func Sub_Categorias_handler(w rest.ResponseWriter, r *rest.Request) {
+	categoriaid := r.PathParam("categoriaid")
+	id, _ := strconv.Atoi(categoriaid)
+	subcategorias := datos.ConsultaSubcategorias(id)
+	w.WriteJson(subcategorias)
+}
+
+func Recomendacion_handler(w rest.ResponseWriter, r *rest.Request) {
+	subcategoriaid := r.PathParam("subcategoriaid")
+	id, _ := strconv.Atoi(subcategoriaid)
+	recomendacion := datos.ConsultaRecomendacion(id)
+	w.WriteJson(recomendacion)
+}
+
+/////////////////////////////////////////////////////////////////////////
 
 func PostUsuario_handler(w rest.ResponseWriter, r *rest.Request) {
 	usuario := new(datos.Usuario)

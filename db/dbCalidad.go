@@ -98,6 +98,8 @@ func ConsultaAlergias(dni int) []Alergia {
 	}
 	return alergias
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 func ConsultaCentrosAtencion() []CentrosAtencion {
 	db, err := sql.Open("mysql", CxStr)
@@ -127,6 +129,97 @@ func ConsultaCentrosAtencion() []CentrosAtencion {
 	}
 	return centros
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+func ConsultaCategorias() []Categoria {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "select IdCategoria, Nombre, URLFoto from Categoria"
+	fmt.Println(query)
+	rows, err := db.Query(query) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	categoria := new(Categoria)
+	categorias := []Categoria{}
+	for rows.Next() {
+		err1 := rows.Scan(&categoria.IdCategoria, &categoria.Nombre, &categoria.URLFoto)
+		if err1 != nil {
+			panic(err1.Error())
+			} else {
+			categorias = append(categorias, *categoria)
+		}
+	}
+	return categorias
+}
+
+func ConsultaSubcategorias(id int) []Subcategoria {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "select IdSubcategoria, Categoria_Id, Nombre, URLFoto from Sub_Categoria where Categoria_Id = ?"
+	fmt.Println(query)
+	rows, err := db.Query(query, id) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	subcategoria := new(Subcategoria)
+	subcategorias := []Subcategoria{}
+	for rows.Next() {
+		err1 := rows.Scan(&subcategoria.IdSubcategoria, &subcategoria.Categoria_Id, &subcategoria.Nombre, &subcategoria.URLFoto)
+		if err1 != nil {
+			panic(err1.Error())
+		} else {
+			subcategorias = append(subcategorias, *subcategoria)
+		}
+	}
+	return subcategorias
+}
+
+func ConsultaRecomendacion(id int) []Recomendacio {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "select IdRecomendacion, Parte, Descripcion, Sub_Categoria_Id from Recomendacion where Sub_Categoria_Id = ?"
+	fmt.Println(query)
+	rows, err := db.Query(query, id) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	recomendacio := new(Recomendacio)
+	recomendacios := []Recomendacio{}
+	for rows.Next() {
+		err1 := rows.Scan(&recomendacio.IdRecomendacion, &recomendacio.Parte, &recomendacio.Descripcion, &subcategoria.Sub_Categoria_Id)
+		if err1 != nil {
+			panic(err1.Error())
+		} else {
+			recomendacios = append(recomendacios, *recomendacio)
+		}
+	}
+	return recomendacios
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 func InsertarUsuario(usr Usuario) {
 	db, err := sql.Open("mysql", CxStr)
@@ -215,6 +308,7 @@ func mustExec(db *sql.DB, query string, args ...interface{}) (res sql.Result) {
 	}
 	return res
 }
+
 func fail(method, query string, err error) {
 	if len(query) > 300 {
 		query = "[query too large to print]"
