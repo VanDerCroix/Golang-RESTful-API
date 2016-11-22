@@ -255,8 +255,7 @@ func InsertarContacto(usr Contacto) {
 
 	defer db.Close()
 
-	res := mustExec(db, "INSERT INTO Contacto(Usuario_DNIUsuario, NombreContacto, NumeroTelef)  
-		VALUES (?, ?, ?)", usr.Usuario_DNIUsuario, usr.NombreContacto, usr.NumeroTelef)
+	res := mustExec(db, "INSERT INTO Contacto(Usuario_DNIUsuario, NombreContacto, NumeroTelef) VALUES (?, ?, ?)", usr.Usuario_DNIUsuario, usr.NombreContacto, usr.NumeroTelef)
 	count, err := res.RowsAffected()
 	if err != nil {
 		log.Printf("res.RowsAffected() returned error: %s", err.Error())
@@ -282,8 +281,7 @@ func InsertarAlergia(usr Alergia) {
 
 	defer db.Close()
 
-	res := mustExec(db, "INSERT INTO Alergias(Usuario_DNIUsuario, NombreAlergia, Medicacion)  
-		VALUES (?, ?, ?)", usr.Usuario_DNIUsuario, usr.NombreAlergia, usr.Medicacion)
+	res := mustExec(db, "INSERT INTO Alergias(Usuario_DNIUsuario, NombreAlergia, Medicacion) VALUES (?, ?, ?)", usr.Usuario_DNIUsuario, usr.NombreAlergia, usr.Medicacion)
 	count, err := res.RowsAffected()
 	if err != nil {
 		log.Printf("res.RowsAffected() returned error: %s", err.Error())
