@@ -60,7 +60,7 @@ func ConsultaContactos(dni int) []Contacto {
 	contacto := new(Contacto)
 	contactos := []Contacto{}
 	for rows.Next() {
-		err1 := rows.Scan(&contacto.NombreContacto, &contacto.NumeroTelef)
+		err1 := rows.Scan(&contacto.IdContacto, &contacto.Usuario_DNIUsuario, &contacto.NombreContacto, &contacto.NumeroTelef)
 		if err1 != nil {
 			panic(err1.Error())
 		} else {
@@ -70,6 +70,35 @@ func ConsultaContactos(dni int) []Contacto {
 	return contactos
 }
 
+func ConsultaAlergias(dni int) []Alergia {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "select IdAlergias, NombreAlergia, Medicacion from Alergia where Usuario_DNIUsuario = ?"
+	fmt.Println(query)
+	rows, err := db.Query(query, dni) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	alergia := new(Alergia)
+	alergias := []Alergia{}
+	for rows.Next() {
+		err1 := rows.Scan(&alergia.IdAlergias, &alergia.NombreAlergia, &alergia.Medicacion)
+		if err1 != nil {
+			panic(err1.Error())
+		} else {
+			alergias = append(alergias, *alergia)
+		}
+	}
+	return alergias
+}
+	
 func ConsultaCentrosAtencion() []CentrosAtencion {
 	db, err := sql.Open("mysql", CxStr)
 	if err != nil {
@@ -89,7 +118,7 @@ func ConsultaCentrosAtencion() []CentrosAtencion {
 	centro := new(CentrosAtencion)
 	centros := []CentrosAtencion{}
 	for rows.Next() {
-		err1 := rows.Scan(&centro.Latitud, &centro.Longitud, &centro.NombreCentAten, &centro.Direccion, &centro.Telefono, &centro.URLFoto, &centro.Direccion)
+		err1 := rows.Scan(&centro.Latitud, &centro.Longitud, &centro.NombreCentAten, &centro.Direccion, &centro.Telefono, &centro.URLFoto, &centro.Distrito)
 		if err1 != nil {
 			panic(err1.Error())
 		} else {
@@ -108,6 +137,60 @@ func InsertarUsuario(usr Usuario) {
 	defer db.Close()
 
 	res := mustExec(db, "INSERT INTO Usuario(DNIUsuario, NombreUsuario, Peso, Talla, Sexo, TipoSangre, MensajePredeterminado)  VALUES (?, ?, ?, ?, ?, ?, ?)", usr.DNIUsuario, usr.NombreUsuario, usr.Peso, usr.Talla, usr.Sexo, usr.TipoSangre, usr.MensajePrederteminado)
+	count, err := res.RowsAffected()
+	if err != nil {
+		log.Printf("res.RowsAffected() returned error: %s", err.Error())
+	}
+	if count != 1 {
+		log.Printf("expected 1 affected row, got %d", count)
+	}
+
+	id, err := res.LastInsertId()
+	if err != nil {
+		log.Printf("res.LastInsertId() returned error: %s", err.Error())
+	}
+	if id != 0 {
+		log.Printf("expected InsertId 0, got %d", id)
+	}
+}
+
+func InsertarContacto(usr Contacto) {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	res := mustExec(db, "INSERT INTO Contacto(Usuario_DNIUsuario, NombreContacto, NumeroTelef)  
+		VALUES (?, ?, ?)", usr.Usuario_DNIUsuario, usr.NombreContacto, usr.NumeroTelef)
+	count, err := res.RowsAffected()
+	if err != nil {
+		log.Printf("res.RowsAffected() returned error: %s", err.Error())
+	}
+	if count != 1 {
+		log.Printf("expected 1 affected row, got %d", count)
+	}
+
+	id, err := res.LastInsertId()
+	if err != nil {
+		log.Printf("res.LastInsertId() returned error: %s", err.Error())
+	}
+	if id != 0 {
+		log.Printf("expected InsertId 0, got %d", id)
+	}
+}
+
+func InsertarAlergia(usr Alergia) {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	res := mustExec(db, "INSERT INTO Alergias(Usuario_DNIUsuario, NombreAlergia, Medicacion)  
+		VALUES (?, ?, ?)", usr.Usuario_DNIUsuario, usr.NombreAlergia, usr.Medicacion)
 	count, err := res.RowsAffected()
 	if err != nil {
 		log.Printf("res.RowsAffected() returned error: %s", err.Error())

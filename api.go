@@ -1,5 +1,5 @@
 package main
-
+	
 import (
 	datos "./db"
 	"github.com/ant0ine/go-json-rest/rest"
@@ -28,8 +28,11 @@ func main() {
 		// ---- CALIDAD SOS ---
 		&rest.Route{"GET", "/usuario", Usuario_handler},
 		&rest.Route{"GET", "/usuario/:dni/contacto", Contacto_handler},
+		&rest.Route{"GET", "/usuario/:dni/alergia", Alergia_handler},
 		&rest.Route{"GET", "/centrosatencion", Centros_Atencion_handler},
 		&rest.Route{"POST", "/postusuario", PostUsuario_handler},
+		&rest.Route{"POST", "/postcontacto", PostContacto_handler},
+		&rest.Route{"POST", "/postalergia", PostAlergia_handler},
 	)
 
 	if err != nil {
@@ -88,6 +91,13 @@ func Contacto_handler(w rest.ResponseWriter, r *rest.Request) {
 	w.WriteJson(contactos)
 }
 
+func Alergia_handler(w rest.ResponseWriter, r *rest.Request) {
+	userdni := r.PathParam("dni")
+	dni, _ := strconv.Atoi(userdni)
+	alergias := datos.ConsultaAlergias(dni)
+	w.WriteJson(alergias)
+}
+
 func Centros_Atencion_handler(w rest.ResponseWriter, r *rest.Request){
 centros_atencion := datos.ConsultaCentrosAtencion()
 	w.WriteJson(centros_atencion)	
@@ -103,4 +113,28 @@ func PostUsuario_handler(w rest.ResponseWriter, r *rest.Request) {
 
 	datos.InsertarUsuario(*usuario)
 	w.WriteJson(&usuario)
+}
+
+func PostContacto_handler(w rest.ResponseWriter, r *rest.Request) {
+	contacto := new(datos.Contacto)
+	err := r.DecodeJsonPayload(&contacto)
+	if err != nil {
+		rest.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	datos.InsertarContacto(*contacto)
+	w.WriteJson(&contacto)
+}
+
+func PostAlergia_handler(w rest.ResponseWriter, r *rest.Request) {
+	alergia := new(datos.Alergia)
+	err := r.DecodeJsonPayload(&alergia)
+	if err != nil {
+		rest.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	datos.InsertarAlergia(*alergia)
+	w.WriteJson(&alergia)
 }

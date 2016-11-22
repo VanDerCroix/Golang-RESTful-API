@@ -29,6 +29,14 @@ type CentrosAtencion struct{
 	Distrito string
 }
 
+type Alergia struct{
+	IdAlergias int
+	Usuario_DNIUsuario int
+	NombreAlergia string
+	Medicacion string	
+}
+
+
 
 // ---- ARQUITECTURABD ---
 /*type Facultad struct {
