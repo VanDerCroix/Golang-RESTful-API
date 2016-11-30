@@ -62,6 +62,7 @@ func ConsultaUsuarioPorDni(dni int) Usuario {
 		err1 := rows.Scan(&user.DNIUsuario, &user.NombreUsuario, &user.Peso, &user.Talla, &user.Sexo, &user.TipoSangre, &user.MensajePrederteminado)
 		if err1 != nil {
 			panic(err1.Error())
+		}
 	}
 	return *user
 }
