@@ -17,7 +17,7 @@ func main() {
 		&rest.Route{"GET", "/ejemplo2", Ejemplo2_handler},
 		// ---- CALIDAD SOS ---
 		&rest.Route{"GET", "/usuario", Usuario_handler},
-		&rest.Route{"GET", "/usuario/:dni", Usuario_Dni_handler},
+//		&rest.Route{"GET", "/usuario/:dni", Usuario_Dni_handler},
 		&rest.Route{"GET", "/usuario/:dni/contacto", Contacto_handler},
 		&rest.Route{"GET", "/usuario/:dni/alergia", Alergia_handler},
 		////////////////////////////////////////////////////////////////////////////
@@ -69,13 +69,13 @@ func Usuario_handler(w rest.ResponseWriter, r *rest.Request) {
 	usuarios := datos.ConsultaUsuarios()
 	w.WriteJson(usuarios)
 }
-
+/*
 func Usuario_Dni_handler(w rest.ResponseWriter, r *rest.Request) {
 	userdni := r.PathParam("dni")
 	dni, _ := strconv.Atoi(userdni)
-	contacto := datos.ConsultaUsuarioPorDni(dni)
-	w.WriteJson(contacto)
-}
+	usuario := datos.ConsultaUsuarioPorDni(dni)
+	w.WriteJson(usuario)
+}*/
 
 func Contacto_handler(w rest.ResponseWriter, r *rest.Request) {
 	userdni := r.PathParam("dni")

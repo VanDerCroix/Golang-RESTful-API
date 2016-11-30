@@ -41,7 +41,7 @@ func ConsultaUsuarios() []Usuario {
 	return users
 }
 
-func ConsultaUsuarioPorDni(dni int) Usuario {
+/*func ConsultaUsuarioPorDni(dni int) []Usuario {
 	db, err := sql.Open("mysql", CxStr)
 	if err != nil {
 		log.Printf(err.Error())
@@ -58,15 +58,18 @@ func ConsultaUsuarioPorDni(dni int) Usuario {
 	}
 
 	user := new(Usuario)
-	if rows.Next() {
+	users := []Usuario{}
+	for rows.Next() {
 		err1 := rows.Scan(&user.DNIUsuario, &user.NombreUsuario, &user.Peso, &user.Talla, &user.Sexo, &user.TipoSangre, &user.MensajePrederteminado)
 		if err1 != nil {
 			panic(err1.Error())
+		} else {
+			users = append(users, *user)
 		}
 	}
-	return *user
+	return users
 }
-
+*/
 func ConsultaContactos(dni int) []Contacto {
 	db, err := sql.Open("mysql", CxStr)
 	if err != nil {
