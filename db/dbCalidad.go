@@ -41,7 +41,7 @@ func ConsultaUsuarios() []Usuario {
 	return users
 }
 
-/*func ConsultaUsuarioPorDni(dni int) []Usuario {
+func ConsultaUsuarioPorDni(dni int) []Usuario {
 	db, err := sql.Open("mysql", CxStr)
 	if err != nil {
 		log.Printf(err.Error())
@@ -69,7 +69,7 @@ func ConsultaUsuarios() []Usuario {
 	}
 	return users
 }
-*/
+
 func ConsultaContactos(dni int) []Contacto {
 	db, err := sql.Open("mysql", CxStr)
 	if err != nil {
