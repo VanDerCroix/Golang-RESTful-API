@@ -41,6 +41,31 @@ func ConsultaUsuarios() []Usuario {
 	return users
 }
 
+func ConsultaUsuarioPorDni(dni int) Usuario {
+	db, err := sql.Open("mysql", CxStr)
+	if err != nil {
+		log.Printf(err.Error())
+	}
+
+	defer db.Close()
+
+	// Execute the query
+	query := "select DNIUsuario, NombreUsuario, Peso, Talla, Sexo, TipoSangre, MensajePredeterminado from Usuario where DNIUsuario = ?"
+	fmt.Println(query)
+	rows, err := db.Query(query, dni) //SELECT * FROM table
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	user := new(Usuario)
+	if rows.Next() {
+		err1 := rows.Scan(&user.DNIUsuario, &user.NombreUsuario, &user.Peso, &user.Talla, &user.Sexo, &user.TipoSangre, &user.MensajePrederteminado)
+		if err1 != nil {
+			panic(err1.Error())
+	}
+	return *user
+}
+
 func ConsultaContactos(dni int) []Contacto {
 	db, err := sql.Open("mysql", CxStr)
 	if err != nil {
